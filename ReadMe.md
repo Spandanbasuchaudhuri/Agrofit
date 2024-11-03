@@ -615,8 +615,8 @@ This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) f
 
 For questions, suggestions, or assistance, please contact:
 
-- **Name**: Your Name
-- **Email**: your.email@example.com
+- **Name**: Spandan Basu Chaudhuri
+- **Email**: Spandanbasu139@gmail.com
 - **GitHub**: [Spandanbasuchaudhuri](https://github.com/Spandanbasuchaudhuri)
 
 ---
