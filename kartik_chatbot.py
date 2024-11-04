@@ -1,13 +1,13 @@
-# kartik_chatbot.py
-
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch
 import pandas as pd
 import re
 import pyttsx3  # For Text-to-Speech
+from yield_predictor import YieldPredictor  # Import YieldPredictor
+
 
 class KartikChatbot:
-    def __init__(self, crop_match, agrofit, transcriber=None):
+    def __init__(self, crop_match, agrofit, transcriber=None, yield_predictor=None):
         # Load the pre-trained model and tokenizer
         self.tokenizer = AutoTokenizer.from_pretrained("microsoft/DialoGPT-medium")
         self.model = AutoModelForCausalLM.from_pretrained("microsoft/DialoGPT-medium")
@@ -15,6 +15,7 @@ class KartikChatbot:
         self.crop_match = crop_match  # Store the CropMatch model
         self.agrofit = agrofit  # Store the AgroFit model
         self.transcriber = transcriber  # Store the Transcriber module (for voice input)
+        self.yield_predictor = yield_predictor  # Store the YieldPredictor model
 
         # Load the adjustment strategies into the chatbot
         self.adjustment_strategies = self._load_adjustment_strategies()
@@ -133,6 +134,53 @@ class KartikChatbot:
             print(recommendation)
             self.speak(recommendation)
 
+    def predict_yield(self):
+        """Predicts the yield based on user inputs."""
+        print("Let's predict the yield for your crop.")
+        # Collect inputs
+        user_input = {}
+        features = self.yield_predictor.data.drop("Yield (kg/ha)", axis=1).columns
+        categorical_columns = list(self.yield_predictor.label_encoders.keys())
+        numerical_columns = [col for col in features if col not in categorical_columns]
+
+        print("Please enter the following numerical features:")
+        for feature in numerical_columns:
+            while True:
+                try:
+                    value = input(f"{feature}: ").strip()
+                    if not value:
+                        print("Input cannot be empty. Please enter a numeric value.")
+                        continue
+                    value = float(value)
+                    user_input[feature] = value
+                    break
+                except ValueError:
+                    print("Invalid input. Please enter a numeric value.")
+
+        print("\nNow, please enter the following categorical features:")
+        for feature in categorical_columns:
+            options = list(self.yield_predictor.label_encoders[feature].classes_)
+            print(f"{feature} options: {options}")
+            while True:
+                value = input(f"{feature}: ").strip()
+                if not value:
+                    print("Input cannot be empty. Please select from the options.")
+                    continue
+                if value in options:
+                    user_input[feature] = value
+                    break
+                else:
+                    print(f"Invalid choice. Please select from {options}.")
+
+        # Predict yield
+        predicted_yield = self.yield_predictor.predict_yield(user_input)
+        if predicted_yield is not None:
+            print(f"\nThe predicted yield is: {predicted_yield:.2f} kg/ha")
+            self.speak(f"The predicted yield is {predicted_yield:.2f} kilograms per hectare.")
+        else:
+            print("Could not predict yield due to missing or invalid inputs.")
+            self.speak("Could not predict yield due to missing or invalid inputs.")
+
     def provide_adjustment_strategies(self):
         """Provides strategies to adjust parameters when requested."""
         print("Please specify the parameter you'd like strategies for (e.g., 'pH Level'):")
@@ -229,6 +277,14 @@ class KartikChatbot:
                 self.make_recommendation()
                 continue  # Continue the chat after recommendation
 
+            # Intent recognition for yield prediction
+            elif self._is_yield_prediction_request(user_input):
+                response = "Sure, I can help you predict the yield for your crop."
+                print(f"Kartik: {response}")
+                self.speak(response)
+                self.predict_yield()
+                continue  # Continue the chat after prediction
+
             # Intent recognition for name query
             elif self._is_name_query(user_input):
                 response = "My name is Kartik."
@@ -238,7 +294,7 @@ class KartikChatbot:
 
             # Intent recognition for capability query
             elif self._is_capability_query(user_input):
-                response = "I can recommend crop subtypes, provide ideal conditions, and offer strategies to adjust parameters. Just ask me!"
+                response = "I can recommend crop subtypes, provide ideal conditions, predict yield, and offer strategies to adjust parameters. Just ask me!"
                 print(f"Kartik: {response}")
                 self.speak(response)
                 continue  # Continue the chat
@@ -324,7 +380,8 @@ class KartikChatbot:
         model_info = [
             ["Model Name", "Purpose"],
             ["CropMatch", "Recommends crop subtypes based on your input data."],
-            ["AgroFit", "Provides ideal agricultural conditions for specific crop subtypes and varieties."]
+            ["AgroFit", "Provides ideal agricultural conditions for specific crop subtypes and varieties."],
+            ["YieldPredictor", "Predicts the expected yield based on your crop and conditions."]
         ]
 
         # Calculate column widths
@@ -389,6 +446,20 @@ class KartikChatbot:
         ]
         user_input_lower = user_input.lower()
         for pattern in conditions_keywords:
+            if re.search(pattern, user_input_lower):
+                return True
+        return False
+
+    def _is_yield_prediction_request(self, user_input):
+        """Checks if the user wants to predict yield."""
+        yield_prediction_keywords = [
+            r'\b(predict|calculate|estimate)\b.*\b(yield)\b',
+            r'\b(what is|tell me|give me)\b.*\b(yield)\b',
+            r'\b(yield prediction|yield estimate)\b',
+            r'\b(how much)\b.*\b(yield)\b'
+        ]
+        user_input_lower = user_input.lower()
+        for pattern in yield_prediction_keywords:
             if re.search(pattern, user_input_lower):
                 return True
         return False
