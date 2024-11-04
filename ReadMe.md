@@ -554,8 +554,8 @@ For any questions, suggestions, or support, please contact:
 
 - **Name**: [Spandan Basu Chaudhuri]
 - **Email**: [Spandanbasu139@gmail.com]
-- **GitHub**: [Spandanbasubhaudhuri](https://github.com/Spandanbasubhaudhuri)
-- **LinkedIn**: [Your LinkedIn Profile](https://www.linkedin.com/in/yourprofile/)
+- **GitHub**: [Spandanbasuchaudhuri](https://github.com/Spandanbasuchaudhuri)
+- **LinkedIn**: [Your LinkedIn Profile](https://www.linkedin.com/in/spandan-basu-chaudhuri-2327b324b/)
 
 ---
 
