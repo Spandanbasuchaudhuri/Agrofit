@@ -1,5 +1,3 @@
-# transcriber.py
-
 import speech_recognition as sr
 
 

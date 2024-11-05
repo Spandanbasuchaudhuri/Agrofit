@@ -21,7 +21,7 @@ def main():
     crop_match.save_model('crop_match_model.pkl')
     print("Model saved to crop_match_model.pkl")
 
-    # Initialize AgroFit
+    # Initialize AgroFit with 100 clusters
     agrofit = AgroFit(
         data_path=data_path,
         model_path='agrofit_model.pkl'

@@ -1,5 +1,3 @@
-# cropmatch.py
-
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, StandardScaler
@@ -7,6 +5,7 @@ from sklearn.ensemble import RandomForestClassifier
 import numpy as np
 from joblib import load, dump
 import os
+
 
 class CropMatch:
     def __init__(self, data_path, model_path=None):

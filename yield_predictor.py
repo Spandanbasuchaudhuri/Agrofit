@@ -6,6 +6,7 @@ from sklearn.metrics import mean_squared_error, r2_score
 from joblib import dump, load
 import os
 
+
 class YieldPredictor:
     def __init__(self, data_path, model_path=None):
         # Load the dataset
@@ -32,15 +33,16 @@ class YieldPredictor:
             self.model = RandomForestRegressor(n_estimators=100, max_depth=10, random_state=42)
             self.model.fit(X_train, y_train)
 
-            # Evaluate the model
+            # Evaluate the model (metrics are calculated but not printed)
             y_pred = self.model.predict(X_test)
             self.mse = mean_squared_error(y_test, y_pred)
             self.r2 = r2_score(y_test, y_pred)
             self.accuracy_percentage = self.r2 * 100
 
-            print("Mean Squared Error (MSE):", self.mse)
-            print("R^2 Score:", self.r2)
-            print("Accuracy (%):", self.accuracy_percentage)
+            # Commented out the print statements to suppress accuracy output
+            # print("Mean Squared Error (MSE):", self.mse)
+            # print("R^2 Score:", self.r2)
+            # print("Accuracy (%):", self.accuracy_percentage)
 
             if model_path:
                 self.save_model(model_path)
