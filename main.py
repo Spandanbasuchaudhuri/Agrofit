@@ -2,7 +2,7 @@ from cropmatch import CropMatch
 from kartik_chatbot import KartikChatbot
 from agrofit import AgroFit
 from yield_predictor import YieldPredictor
-from transcriber import Transcriber  # Import the transcriber module
+from transcriber import Transcriber
 import warnings
 
 
@@ -24,8 +24,11 @@ def main():
     # Initialize AgroFit with 100 clusters
     agrofit = AgroFit(
         data_path=data_path,
-        model_path='agrofit_model.pkl'
+        model_path='agrofit_model.pkl'  # Provide the model path here
     )
+    # Save the model (if you want to use it later)
+    agrofit.save_model('agrofit_model.pkl')
+    print("AgroFit model saved to agrofit_model.pkl")
 
     # Initialize YieldPredictor
     yield_predictor = YieldPredictor(

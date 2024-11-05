@@ -52,9 +52,13 @@ class AgroFit:
             # Evaluation: Silhouette Score
             self.silhouette_avg = silhouette_score(self.pca_features, self.kmeans.labels_)
             print(f"\nSilhouette Score with {k} clusters: {self.silhouette_avg}")
+
+            # Save the model if model_path is provided
             if model_path:
                 self.save_model(model_path)
                 print(f"KMeans model saved to {model_path}")
+            else:
+                print("Model path not provided. Model not saved.")
 
     def save_model(self, model_path):
         """Saves the trained KMeans model and encoders to the specified path."""
@@ -102,10 +106,8 @@ class AgroFit:
 
         # Map back to original categories
         soil_type = [key for key, value in self.soil_type_mapping.items() if value == soil_type_mode][0]
-        planting_season = [key for key, value in self.planting_season_mapping.items() if value == planting_season_mode][
-            0]
-        harvesting_season = \
-        [key for key, value in self.harvesting_season_mapping.items() if value == harvesting_season_mode][0]
+        planting_season = [key for key, value in self.planting_season_mapping.items() if value == planting_season_mode][0]
+        harvesting_season = [key for key, value in self.harvesting_season_mapping.items() if value == harvesting_season_mode][0]
 
         # Prepare recommended conditions
         recommended_conditions = avg_conditions.to_dict()
