@@ -1,6 +1,6 @@
-# AgriChatbot: Intelligent Agricultural Assistant
+# AgroFit: Intelligent Agricultural Assistant
 
-**AgriChatbot** is a sophisticated, AI-driven chatbot designed to empower farmers, agronomists, and agricultural enthusiasts with actionable insights and data-driven recommendations. By leveraging machine learning models and natural language processing, AgriChatbot assists users in making informed decisions related to crop selection, optimal growing conditions, yield predictions, and strategic adjustments to various agricultural parameters. The chatbot supports both text and voice interactions, ensuring accessibility and ease of use across different user preferences.
+**AgroFit** is a sophisticated, AI-driven chatbot designed to empower farmers, agronomists, and agricultural enthusiasts with actionable insights and data-driven recommendations. By leveraging machine learning models and natural language processing, AgroFit assists users in making informed decisions related to crop selection, optimal growing conditions, yield predictions, and strategic adjustments to various agricultural parameters. The chatbot supports both text and voice interactions, ensuring accessibility and ease of use across different user preferences.
 
 ## Table of Contents
 
@@ -44,7 +44,7 @@
 
 ## Architecture
 
-AgriChatbot is built with a modular architecture, ensuring scalability, maintainability, and ease of integration. The core components include:
+AgroFit is built with a modular architecture, ensuring scalability, maintainability, and ease of integration. The core components include:
 
 - **Machine Learning Models**: Responsible for predictions and recommendations.
 - **Natural Language Processing (NLP)**: Handles user interactions and intent recognition.
@@ -559,4 +559,4 @@ For any questions, suggestions, or support, please contact:
 
 ---
 
-*This README was generated to provide comprehensive guidance on setting up, using, and contributing to AgriChatbot. For further assistance, refer to the documentation within each module or reach out through the contact channels provided.*
+*This README was generated to provide comprehensive guidance on setting up, using, and contributing to AgroFit. For further assistance, refer to the documentation within each module or reach out through the contact channels provided.*
