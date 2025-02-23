@@ -79,7 +79,7 @@ agri_chatbot/
 - **yield_predictor.py**: Contains the `YieldPredictor` class for predicting crop yields.
 - **transcriber.py**: Contains the `Transcriber` class for voice-to-text functionality.
 - **kartik_chatbot.py**: Contains the `KartikChatbot` class that manages user interactions and integrates all functionalities.
-- **requirements.txt**: Lists all Python dependencies required for the project.
+- **requirements.txt**: Lists all the Python dependencies required for the project.
 - **models/**: Directory to store trained machine learning model files (`.pkl` files).
 - **README.md**: This documentation file.
 
